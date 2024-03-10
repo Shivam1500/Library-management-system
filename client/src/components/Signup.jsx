@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../actions/authActions';
+import { registerUser } from '../actions/authActions.jsx';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -20,7 +20,7 @@ const Signup = () => {
         dispatch(registerUser(values))
             .then(() => {
                 setSubmitting(false);
-                navigate('/login');
+                navigate('/');
             })
             .catch(() => {
                 setSubmitting(false);
@@ -29,7 +29,7 @@ const Signup = () => {
 
     return (
         <div className='d-flex justify-content-center align-items-center vh-100'>
-            <div className='bg-white p-3 rounded w-25'>
+            <div className='bg-white p-3 rounded w-25  border'>
                 <h2>Register</h2>
                 {error && <div className="alert alert-danger">{error}</div>}
                 <Formik
@@ -38,7 +38,7 @@ const Signup = () => {
                     onSubmit={handleSubmit}
                 >
                     {({ isSubmitting }) => (
-                        <Form>
+                        <Form >
                             <div className='mb-3'>
                                 <label htmlFor='name'><strong>Name</strong></label>
                                 <Field type='text' name='name' className='form-control rounded-0' />
@@ -56,7 +56,7 @@ const Signup = () => {
                             </div>
                             <button type='submit' className='btn btn-success w-100 rounded-0' disabled={isSubmitting}>Signup</button>
                             <p>Already Have an Account then click on Login</p>
-                            <Link to='/login' className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Login</Link>
+                            <Link to='/' className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Login</Link>
                         </Form>
                     )}
                 </Formik>
@@ -66,3 +66,7 @@ const Signup = () => {
 };
 
 export default Signup;
+
+
+// className="d-flex justify-content-center align-items-center "
+//         style={{ margin: "50px 0px 0px 50px", justifyContent: "space-between" }}

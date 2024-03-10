@@ -9,23 +9,31 @@ export const registerUser = (userData) => async (dispatch) => {
     }
 };
 
+
 export const loginUser = (userData) => async (dispatch) => {
     try {
-        const response = await axios.post('http://localhost:3001/api/auth/login', userData);
-        if (response.status === 200) {
-            const { token } = response.data;
-            localStorage.setItem('token', token);
-            dispatch({ type: 'LOGIN_SUCCESS' });
+        const response = await axios.post("http://localhost:3001/api/auth/login", userData);
+        if (response.status === 200 && response.data && response.data.token) {
+            const { token, userId, userName } = response.data;
+            localStorage.setItem("token", token);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("name", userName)
+            dispatch({ type: "LOGIN_SUCCESS", payload: { token, userId, userName } });
+            console.log("User ID:", userId);
+        } else {
+            console.error("Login failed: Unexpected response format");
+            dispatch({ type: "LOGIN_FAILURE", payload: "Unexpected response format" });
         }
     } catch (error) {
-        console.error('Login failed:', error);
+        console.error("Login failed:", error);
         if (error.response && error.response.data) {
             const errorMessage = error.response.data.error;
-            if (errorMessage === 'User not found') {
-                dispatch({ type: 'LOGIN_FAILURE', payload: { email: 'User not found' } });
-            } else if (errorMessage === 'Invalid password') {
-                dispatch({ type: 'LOGIN_FAILURE', payload: { password: 'Invalid password' } });
-            }
+            dispatch({
+                type: "LOGIN_FAILURE",
+                payload: errorMessage === "User not found"
+                    ? { email: "User not found" }
+                    : { password: "Invalid password" }
+            });
         }
     }
 };
