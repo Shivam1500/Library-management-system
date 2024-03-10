@@ -1,21 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../modal/User');
 
-// exports.login = async (req, res) => {
-//     const { email, password } = req.body;
-//     try {
-//         const user = await UserModel.findOne({ email, password });
-//         if (!user) {
-//             return res.status(401).json({ error: "Invalid credentials" })
-//         }
-//         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-//         console.log('token', token);
-//         res.json({ token });
-//     } catch (error) {
-//         console.log("error in login", error);
-//         res.status(500).json({ error: "Server error" });
-//     }
-// }
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
