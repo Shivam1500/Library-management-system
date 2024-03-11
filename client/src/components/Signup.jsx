@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../actions/authActions.jsx';
+import { registerUser } from '../actions/authActions.js';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -68,5 +68,3 @@ const Signup = () => {
 export default Signup;
 
 
-// className="d-flex justify-content-center align-items-center "
-//         style={{ margin: "50px 0px 0px 50px", justifyContent: "space-between" }}

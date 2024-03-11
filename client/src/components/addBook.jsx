@@ -1,48 +1,28 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addBook } from "../actions/bookActions";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const AddBook = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [quantity, setQuantity] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!title || !author || !quantity) return;
 
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Token not found");
-
-      const response = await axios.post(
-        "http://localhost:3001/api/books/addbook/Post",
-        {
-          title,
-          author,
-          quantity: parseInt(quantity),
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (response.status >= 200 && response.status < 300) {
-        toast.success("Book added successfully!");
-        setTitle("");
-        setAuthor("");
-        setQuantity("");
-        navigate("/home");
-      } else {
-        console.error("Failed to add book:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error in adding book:", error);
-    }
+    dispatch(addBook({ title, author, quantity }));
+    setTitle("");
+    setAuthor("");
+    setQuantity("");
   };
 
-  const handleBack = () => navigate("/home");
+  const handleBack = () => {
+    navigate("/home");
+  };
 
   return (
     <div className="container-lg d-flex justify-content-center align-items-center vh-100 " >
@@ -101,3 +81,7 @@ const AddBook = () => {
 };
 
 export default AddBook;
+
+
+
+
